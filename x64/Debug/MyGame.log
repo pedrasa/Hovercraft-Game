@@ -1,0 +1,4 @@
+﻿  StartGame.cpp
+c:\users\ritop\source\repos\mygame\startgame.cpp(32): warning C4305: 'argument': truncation from 'double' to 'GLfloat'
+c:\users\ritop\source\repos\mygame\startgame.cpp(44): warning C4305: 'argument': truncation from 'double' to 'GLfloat'
+  MyGame.vcxproj -> C:\Users\ritop\source\repos\MyGame\x64\Debug\MyGame.exe
