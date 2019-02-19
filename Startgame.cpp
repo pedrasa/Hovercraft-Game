@@ -6,6 +6,12 @@
 #pragma comment(lib, "glew32.lib")
 #endif
 #include "Obstacle.h";
+#include "reader.h"
+Reader obj;
+
+using namespace std;
+
+double xx;
 
 Obstacle firstObstacle = Obstacle(glm::vec3(0, 0, 0));
 Obstacle secondObstacle = Obstacle(glm::vec3(2, 2, 2));
@@ -13,6 +19,7 @@ Obstacle secondObstacle = Obstacle(glm::vec3(2, 2, 2));
 
 void Drawscene()
 {
+	int i, id;
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	glLoadIdentity();
@@ -49,6 +56,46 @@ void Drawscene()
 	glPopMatrix();
 	glPopMatrix();
 
+	// Modeling transformations.
+	glTranslatef(0.0, 0.0, -6.0);
+	glRotatef(25, 1, 0, 0);
+	glRotatef(45, 0, 1, 0);
+	//glScalef(0.5, 0.5, 0.5);
+
+	glBegin(GL_TRIANGLES);
+	for (i = 0; i < obj.numFaces; i++)
+	{
+		id = obj.faces[i].id1;
+		glNormal3d(obj.normal[id].x, obj.normal[id].y, obj.normal[id].z);
+		glVertex3d(obj.vertex[id].x, obj.vertex[id].y, obj.vertex[id].z);
+		id = obj.faces[i].id2;
+		glNormal3d(obj.normal[id].x, obj.normal[id].y, obj.normal[id].z);
+		glVertex3d(obj.vertex[id].x, obj.vertex[id].y, obj.vertex[id].z);
+		id = obj.faces[i].id3;
+		glNormal3d(obj.normal[id].x, obj.normal[id].y, obj.normal[id].z);
+		glVertex3d(obj.vertex[id].x, obj.vertex[id].y, obj.vertex[id].z);
+	}
+	glEnd();
+
+	///this is for four vertices polygon
+	/*glBegin(GL_QUADS);
+	for (i = 0; i < obj.numFaces; i++)
+	{
+	id = obj.faces[i].id1;
+	glNormal3d(obj.normal[id].x, obj.normal[id].y, obj.normal[id].z);
+	glVertex3d(obj.vertex[id].x, obj.vertex[id].y, obj.vertex[id].z);
+	id = obj.faces[i].id2;
+	glNormal3d(obj.normal[id].x, obj.normal[id].y, obj.normal[id].z);
+	glVertex3d(obj.vertex[id].x, obj.vertex[id].y, obj.vertex[id].z);
+	id = obj.faces[i].id3;
+	glNormal3d(obj.normal[id].x, obj.normal[id].y, obj.normal[id].z);
+	glVertex3d(obj.vertex[id].x, obj.vertex[id].y, obj.vertex[id].z);
+	id = obj.faces[i].id4;
+	glNormal3d(obj.normal[id].x, obj.normal[id].y, obj.normal[id].z);
+	glVertex3d(obj.vertex[id].x, obj.vertex[id].y, obj.vertex[id].z);
+	}
+	glEnd();*/
+
 	glutSwapBuffers();
 }
 
@@ -60,7 +107,8 @@ void setup(void)
 	unsigned int base = glGenLists(2);
 	base = firstObstacle.setupDrawing(base);
 	base = secondObstacle.setupDrawing(base);
-
+	char filename[] = "Racetrack.obj";
+	obj.LoadModel(filename);
 	
 	firstObstacle.start();
 	secondObstacle.start();
@@ -71,9 +119,25 @@ void resize(int w, int h)
 {
 	glViewport(0, 0, w, h);
 	glMatrixMode(GL_PROJECTION);
+	/* set up depth-buffering */
+	glEnable(GL_DEPTH_TEST);
+
+	/* turn on default lighting */
+	glEnable(GL_LIGHTING);
+	glEnable(GL_LIGHT0);
 	glLoadIdentity();
 	gluPerspective(60.0, (float)w / float(h), 1.0, 500.0);
 	glMatrixMode(GL_MODELVIEW);
+}
+
+
+void animate() {
+
+	/* update state variables */
+	xx += .001;
+
+	/* refresh screen */
+	glutPostRedisplay();
 }
 
 //keyboard input processing routine
@@ -108,6 +172,7 @@ int main(int argc, char **argv)
 	glutCreateWindow("Hovercraft Program");
 	glutDisplayFunc(Drawscene);
 	glutReshapeFunc(resize);
+	//glutIdleFunc(animate);
 	glutKeyboardFunc(keyInput);
 	glutIdleFunc(idle);
 
@@ -115,6 +180,7 @@ int main(int argc, char **argv)
 	glewInit();
 
 	setup();
+	xx = 0.0;
 
 	glutMainLoop();
 }
