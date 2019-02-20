@@ -1,9 +1,8 @@
 #include "Obstacle.h"
 
-
-Obstacle::Obstacle(glm::vec3 position, Colour col = { 0,0,1 })
+Obstacle::Obstacle(glm::vec3 position, Colour col):GameObject(position)
 {
-	this->position = position;
+	setColour(col);
 }
 
 Obstacle::~Obstacle()
@@ -11,14 +10,6 @@ Obstacle::~Obstacle()
 
 }
 
-void Obstacle::drawScene()
-{
-	glPushMatrix();
-	glColor3f(colour.r, colour.g, colour.b);
-	glTranslatef(this->position.x, this->position.y, this->position.z);
-	glCallList(this->base);
-	glPopMatrix();
-}
 
 void Obstacle::start()
 {
@@ -30,14 +21,14 @@ void Obstacle::update(int deltaTime)
 
 }
 
-unsigned int Obstacle::setupDrawing(unsigned int listBase)
+unsigned int  Obstacle::setupDrawing(unsigned int listBase)
 {
 	this->base = ++listBase;
 	glNewList(this->base, GL_COMPILE);
 	glPushMatrix();
-	//glColor3f(r, g, b);
-
-	glutSolidSphere(1.0, 40, 40);
+	glColor3f(this->colour.r, this->colour.g, this->colour.b);
+	glRotatef(-45, 1, 0, 0);
+	glutSolidCone(0.5, 0.75, 30, 30);
 	glPopMatrix();
 	glEndList();
 	return this->base;

@@ -17,6 +17,11 @@ unsigned int GameObject::setupDrawing(unsigned int listBase)
 	return 0;
 }
 
+
 void GameObject::drawScene()
 {
+	glPushMatrix();
+	glTranslatef(this->position.x, this->position.y, this->position.z);
+	glCallList(this->base);
+	glPopMatrix();
 }

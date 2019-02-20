@@ -7,15 +7,18 @@
 #endif
 #include "Obstacle.h";
 #include "reader.h"
-Reader obj;
+#include "Hovercraft.h";
+#include "Grass.h";
+//Reader obj;
 
 using namespace std;
 
-double xx;
+//double xx;
 
-Obstacle firstObstacle = Obstacle(glm::vec3(0, 0, 0));
-Obstacle secondObstacle = Obstacle(glm::vec3(2, 2, 2));
-
+Grass grassField = Grass(glm::vec3(0, 0, 0), glm::vec3(5, 0, 5));
+Obstacle firstObstacle = Obstacle(glm::vec3(0.0, 0.0, -2.0), {0.55f, 0.27f, 0.07f});
+Obstacle secondObstacle = Obstacle(glm::vec3(4.0, 0.0, 4.0), { 0.67f, 0.45f, 0.37f });
+Hovercraft hovercraft = Hovercraft(glm::vec3(-2, 0, 2));
 
 void Drawscene()
 {
@@ -27,43 +30,22 @@ void Drawscene()
 	// Position the objects for viewing.
 	gluLookAt(0.0, 0.0, -10.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
 
-	//grass field
-	glPushMatrix();
-	glColor3f(0, 1, 0);
-	glBegin(GL_QUADS);
-	glVertex3f(5, 0, 5);
-	glVertex3f(-5, 0, 5);
-	glVertex3f(-5, 0, -5);
-	glVertex3f(5, 0, -5);
-	glEnd();
-	glPopMatrix();
 
-	firstObstacle.setColour({ 0.55f, 0.27f, 0.07f });
-	secondObstacle.setColour({0.67f, 0.45f, 0.37f});
+	grassField.drawScene();
 	firstObstacle.drawScene();
 	secondObstacle.drawScene();
+	hovercraft.drawScene();
 
-	//hovercraft
-	glPushMatrix();
-	glColor3f(-2, 0, 2);
-	glTranslatef(-2, 0, 2);
-	glRotatef(-90, 0, 1, 0);
-	glutSolidCone(0.5, 0.75, 30, 30);
-	glPushMatrix();
-	glTranslatef(0, 0, -0.4);
-	glColor3f(1, 1, 1);
-	glutSolidCube(0.8);
-	glPopMatrix();
-	glPopMatrix();
 
-	glPushMatrix();
+
+	/*glPushMatrix();
 	// Modeling transformations.
 	glTranslatef(0.0, 0.0, -6.0);
 	glRotatef(25, 1, 0, 0);
 	glRotatef(45, 0, 1, 0);
 	//glScalef(0.5, 0.5, 0.5);
 
-	glBegin(GL_TRIANGLES);
+	/*glBegin(GL_TRIANGLES);
 	for (i = 0; i < obj.numFaces; i++)
 	{
 		id = obj.faces[i].id1;
@@ -76,7 +58,7 @@ void Drawscene()
 		glNormal3d(obj.normal[id].x, obj.normal[id].y, obj.normal[id].z);
 		glVertex3d(obj.vertex[id].x, obj.vertex[id].y, obj.vertex[id].z);
 	}
-	glEnd();
+	glEnd();*/
 
 	///this is for four vertices polygon
 	/*glBegin(GL_QUADS);
@@ -95,8 +77,8 @@ void Drawscene()
 	glNormal3d(obj.normal[id].x, obj.normal[id].y, obj.normal[id].z);
 	glVertex3d(obj.vertex[id].x, obj.vertex[id].y, obj.vertex[id].z);
 	}
-	glEnd();*/
-	glPopMatrix();
+	glEnd();
+	glPopMatrix(); */
 
 	glutSwapBuffers();
 }
@@ -106,14 +88,18 @@ void setup(void)
 {
 	glClearColor(0.0, 0.0, 0.0, 0.0);
 
-	unsigned int base = glGenLists(2);
+	unsigned int base = glGenLists(4);
+	base = grassField.setupDrawing(base);
 	base = firstObstacle.setupDrawing(base);
 	base = secondObstacle.setupDrawing(base);
-	char filename[] = "Racetrack.obj";
-	obj.LoadModel(filename);
+	base = hovercraft.setupDrawing(base);
+	/*char filename[] = "Racetrack.obj";
+	obj.LoadModel(filename);*/
 	
+	grassField.start();
 	firstObstacle.start();
 	secondObstacle.start();
+	hovercraft.start();
 }
 
 //OpenGL window reshape routine
@@ -122,25 +108,25 @@ void resize(int w, int h)
 	glViewport(0, 0, w, h);
 	glMatrixMode(GL_PROJECTION);
 	/* set up depth-buffering */
-	glEnable(GL_DEPTH_TEST);
+	//glEnable(GL_DEPTH_TEST);
 
 	/* turn on default lighting */
-	glEnable(GL_LIGHTING);
-	glEnable(GL_LIGHT0);
+	//glEnable(GL_LIGHTING);
+	//glEnable(GL_LIGHT0);
 	glLoadIdentity();
 	gluPerspective(60.0, (float)w / float(h), 1.0, 500.0);
 	glMatrixMode(GL_MODELVIEW);
 }
 
 
-void animate() {
+/*void animate() {
 
-	/* update state variables */
+	/* update state variables 
 	xx += .001;
 
-	/* refresh screen */
+	/* refresh screen 
 	glutPostRedisplay();
-}
+}*/
 
 //keyboard input processing routine
 void keyInput(unsigned char key, int x, int y)
@@ -182,7 +168,7 @@ int main(int argc, char **argv)
 	glewInit();
 
 	setup();
-	xx = 0.0;
+	//xx = 0.0;
 
 	glutMainLoop();
 }

@@ -10,7 +10,7 @@
 #include <glm/glm.hpp>
 
 #include <iostream>
-#include "Collider.h" //gameobjects can have a collider
+
 class GameObject
 {
 protected:
