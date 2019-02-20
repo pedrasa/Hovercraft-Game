@@ -1,7 +1,7 @@
 #include "Obstacle.h"
 
 
-Obstacle::Obstacle(glm::vec3 position)
+Obstacle::Obstacle(glm::vec3 position, Colour col = { 0,0,1 })
 {
 	this->position = position;
 }

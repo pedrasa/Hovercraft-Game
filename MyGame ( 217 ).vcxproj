@@ -119,11 +119,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="GameObject.cpp" />
+    <ClCompile Include="Hovercraft.cpp" />
     <ClCompile Include="Obstacle.cpp" />
     <ClCompile Include="reader.cpp" />
     <ClCompile Include="Startgame.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="GameObject.h" />
+    <ClInclude Include="Hovercraft.h" />
     <ClInclude Include="Obstacle.h" />
     <ClInclude Include="reader.h" />
   </ItemGroup>

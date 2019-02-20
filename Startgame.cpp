@@ -56,6 +56,7 @@ void Drawscene()
 	glPopMatrix();
 	glPopMatrix();
 
+	glPushMatrix();
 	// Modeling transformations.
 	glTranslatef(0.0, 0.0, -6.0);
 	glRotatef(25, 1, 0, 0);
@@ -95,6 +96,7 @@ void Drawscene()
 	glVertex3d(obj.vertex[id].x, obj.vertex[id].y, obj.vertex[id].z);
 	}
 	glEnd();*/
+	glPopMatrix();
 
 	glutSwapBuffers();
 }
