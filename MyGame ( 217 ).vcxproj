@@ -119,6 +119,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="GameEngine.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="Grass.cpp" />
     <ClCompile Include="Hovercraft.cpp" />
@@ -127,6 +128,7 @@
     <ClCompile Include="Startgame.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="GameEngine.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="Grass.h" />
     <ClInclude Include="Hovercraft.h" />
