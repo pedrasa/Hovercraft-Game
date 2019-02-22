@@ -50,6 +50,7 @@ void CubeCollider::Draw()
 	glPopMatrix();
 }
 
+
 CubeCollider::CubeCollider(glm::vec3 * centre, float cubeWidth, float cubeHeight, float cubeLength)
 {
 	this->colliderCentre = centre;

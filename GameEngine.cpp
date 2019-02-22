@@ -52,50 +52,9 @@ void GameEngine::updateGame()
 	glutPostRedisplay();
 }
 
-GameEngine::GameEngine()
-{
-}
-
-
-GameEngine::~GameEngine()
-{
-}
-
-void GameEngine::reshapeFunc(int w, int h) {
-	glViewport(0, 0, w, h);
-	glMatrixMode(GL_PROJECTION);
-	gluPerspective(60.0, (float)w / (float)h, 1.0, 500.0);
-	glMatrixMode(GL_MODELVIEW);
-}
-
-void GameEngine::displayFunc() {
-	//Prepare for drawing all objects.
-	glClearColor(0.0, 0.0, 0.0, 0.0);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
-	//If we have no object to follow just put the cam in a static position.
-	if (cameraFollow != NULL) {
-		//Hardcoded camera variables for the distance bewteen camera and object and y axis distance between camera and object.
-		float distance = 8;
-		float yAm = 2;
-
-		gluLookAt(cameraFollow->position.x - (cameraFollow->heading.x * distance), cameraFollow->position.y - (cameraFollow->heading.y * distance) + yAm, cameraFollow->position.z - (cameraFollow->heading.z * distance),
-			cameraFollow->position.x, cameraFollow->position.y, cameraFollow->position.z,
-			0.0, 1.0, 0.0);
-	}
-
-	//Call drawscene for all gameobjects.
-	for (std::vector<GameObject*>::size_type i = 0; i != gameobjects.size(); i++) {
-		gameobjects[i]->drawScene();
-	}
-	glutSwapBuffers(); //Finish Draw Scene.
-
-
 void GameEngine::initEngine(int argc, char ** argv, const char * windowTitle, bool debugMode, int width, int height)
 {
-	GameEngine::debugMode = debug;
+	GameEngine::debugMode = debugMode;
 	GameObject::debugMode = GameEngine::debugMode;
 	//Init glut.
 	glutInit(&argc, argv);
@@ -140,8 +99,8 @@ void GameEngine::initEngine(int argc, char ** argv, const char * windowTitle, bo
 	});
 
 	glutIdleFunc(updateGame);
-}
 
+}
 void GameEngine::displayFunc()
 {
 	//Prepare for drawing all objects.
@@ -171,7 +130,16 @@ void GameEngine::displayFunc()
 	glutSwapBuffers(); //Finish Draw Scene.
 }
 
-void GameEngine::addGameObject(GameObject* gameobject, bool camFollow) {
+void GameEngine::reshapeFunc(int w, int h)
+{
+	glViewport(0, 0, w, h);
+	glMatrixMode(GL_PROJECTION);
+	gluPerspective(60.0, (float)w / (float)h, 1.0, 500.0);
+	glMatrixMode(GL_MODELVIEW);
+}
+
+void GameEngine::addGameObject(GameObject * gameobject, bool camFollow)
+{
 	gameobjects.push_back(gameobject);
 	if (camFollow) {
 		cameraFollow = gameobject;
@@ -198,3 +166,4 @@ void GameEngine::cleanup()
 	}
 	gameobjects.clear();
 }
+

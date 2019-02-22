@@ -14,9 +14,9 @@ Reader obj;
 using namespace std;
 double xx;
 
-void Drawscene()
+/*void Drawscene()
 {
-	int i, id;
+	/*int i, id;
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	glLoadIdentity();
@@ -68,18 +68,18 @@ void resize(int w, int h)
 {
 	glViewport(0, 0, w, h);
 	glMatrixMode(GL_PROJECTION);
-	/* set up depth-buffering */
+	/* set up depth-buffering 
 	glEnable(GL_DEPTH_TEST);
 
-	/* turn on default lighting */
+	/* turn on default lighting 
 	//glEnable(GL_LIGHTING);
 	//glEnable(GL_LIGHT0);
 	glLoadIdentity();
 	gluPerspective(60.0, (float)w / float(h), 1.0, 500.0);
 	glMatrixMode(GL_MODELVIEW);
 }
-
-void animate() {
+*/
+/*void animate() {
 
 	// update state variables 
 	xx += .001;
@@ -119,4 +119,28 @@ int main(int argc, char **argv)
 	xx = 0.0;
 
 	glutMainLoop();
+}*/
+
+int main(int argc, char **argv) {
+
+	//Initialise the engine.
+	GameEngine::initEngine(argc, argv, "Hovercraft tutorial", true);
+
+	//Adding grass field.
+	GameEngine::addGameObject(new Grass(glm::vec3(0, 0, 0), glm::vec3(5, 0, 5)));
+
+	//Adding an Obstacle.
+	GameEngine::addGameObject(new Obstacle(glm::vec3(0.0, 0.0, -2.0), { 0.55f, 0.27f, 0.07f }));
+
+	//Adding an Obstacle with different colour.
+	GameEngine::addGameObject(new Obstacle(glm::vec3(4.0, 0.0, 4.0)));
+
+	//Add a movable hovercraft.
+	GameEngine::addGameObject(new Hovercraft(glm::vec3(-2, 0, 2)), false);
+
+
+	//Start the game engine.
+	GameEngine::startEngine();
+
+	return 0;
 }

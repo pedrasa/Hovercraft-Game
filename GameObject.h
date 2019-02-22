@@ -22,8 +22,7 @@ public:
 	Collider* collider = NULL;  ///<Pointer to a collider for the game object. Initially NULL to indicate that we do not want to calculate collisions.
 	glm::vec3 heading = glm::vec3(0.0, 0.0, -1.0);  ///<Current heading (direction) the GameObject is facing.
 	static std::map <int, bool> specialKeys;
-	static std::map <char, bool> keys;
-	glm::vec3 heading = glm::vec3(0.0, 0.0, -1.0);  ///<Current heading (direction) the GameObject is facing.
+	static std::map <char, bool> keys;  ///<Current heading (direction) the GameObject is facing.
 	glm::vec3 position;///<Position of the gameobject.
 	GameObject(glm::vec3 position);
 	~GameObject();
