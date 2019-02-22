@@ -1,5 +1,6 @@
 #include "GameObject.h"
 
+bool GameObject::debugMode;
 std::map <int, bool> specialKeys;
 std::map <char, bool> keys;
 
@@ -13,9 +14,8 @@ GameObject::~GameObject()
 {
 }
 
-unsigned int GameObject::setupDrawing(unsigned int listBase)
+void GameObject::collides(Collider * other)
 {
-	return 0;
 }
 
 
@@ -25,4 +25,10 @@ void GameObject::drawScene()
 	glTranslatef(this->position.x, this->position.y, this->position.z);
 	glCallList(this->base);
 	glPopMatrix();
+
+	//If we are in debug mode then:
+	if (debugMode) {
+		//Display the collider bounding box.
+		this->collider->Draw();
+	}
 }

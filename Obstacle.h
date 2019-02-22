@@ -16,6 +16,6 @@ public:
 	void update(int deltaTime);
 	unsigned int setupDrawing(unsigned int listBase);
 	void setColour(Colour col);
-
+	void collides(Collider * other);///<Overridden collides method.
 };
 

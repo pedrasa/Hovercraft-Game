@@ -1,13 +1,16 @@
 #include "Hovercraft.h"
+#include "CubeCollider.h"
 
 
 Hovercraft::Hovercraft(glm::vec3 position):GameObject (position)
 {
-	
+	Hovercraft::collider = new CubeCollider(&this->position, 1.5, 1.5, 1.5);
 }
 
 Hovercraft::~Hovercraft()
 {
+	delete Hovercraft::collider;
+	Hovercraft::collider = NULL;
 }
 
 void Hovercraft::drawScene()
@@ -73,6 +76,11 @@ unsigned int Hovercraft::setupDrawing(unsigned int listBase)
 	glPopMatrix();
 	glPopMatrix();
 	glEndList();
-	return this->base;
+	return this->base + 1;
 }
 
+void Hovercraft::collides(Collider* other) {
+	if (debugMode) {
+		std::cout << "Hovercraft collides!" << std::endl;
+	}
+}
