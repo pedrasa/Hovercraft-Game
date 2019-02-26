@@ -1,6 +1,7 @@
 #pragma once
 #include "GameObject.h"
 #include <vector>
+#include "reader.h"
 class GameEngine
 {
 private:
@@ -14,6 +15,8 @@ private:
 public:
 	GameEngine();
 	~GameEngine();
+	static void setup(void);
+	static void animate();
 	static void initEngine(int argc, char **argv, const char* windowTitle = "New Game", bool debugMode = false, int width = 500, int height = 500); ///<Initialises the engine, initilising glut and OpenGL.
 	static void displayFunc();
 	static void reshapeFunc(int w, int h);

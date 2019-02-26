@@ -14,6 +14,7 @@ GameObject::~GameObject()
 {
 }
 
+
 void GameObject::collides(Collider * other)
 {
 }
