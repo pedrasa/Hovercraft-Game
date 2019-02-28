@@ -24,8 +24,9 @@ public:
 	int numPts;
 	int numFaces;
 	Vertex vertex[5000];
-	Vertex normal[5000];
+	Vertex texCoord[5000];
 	Face faces[5000];
+	Face texfaces[5000];
 
 public:
 	Reader();
@@ -33,8 +34,8 @@ public:
 
 	void loadVertex(char* filename);
 	void LoadFace(char* filename);
+	void LoadTexCoord(char* filename);
 	void LoadModel(char* filename);
-	void CalNormal(void);
 
 };
 

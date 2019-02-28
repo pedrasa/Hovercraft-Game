@@ -122,9 +122,11 @@
     <ClCompile Include="CubeCollider.cpp" />
     <ClCompile Include="GameEngine.cpp" />
     <ClCompile Include="GameObject.cpp" />
+    <ClCompile Include="getbmp.cpp" />
     <ClCompile Include="Grass.cpp" />
     <ClCompile Include="Hovercraft.cpp" />
     <ClCompile Include="Obstacle.cpp" />
+    <ClCompile Include="Racetrack.cpp" />
     <ClCompile Include="reader.cpp" />
     <ClCompile Include="Startgame.cpp" />
   </ItemGroup>
@@ -132,10 +134,12 @@
     <ClInclude Include="CubeCollider.h" />
     <ClInclude Include="GameEngine.h" />
     <ClInclude Include="GameObject.h" />
+    <ClInclude Include="getbmp.h" />
     <ClInclude Include="Grass.h" />
     <ClInclude Include="Collider.h" />
     <ClInclude Include="Hovercraft.h" />
     <ClInclude Include="Obstacle.h" />
+    <ClInclude Include="Racetrack.h" />
     <ClInclude Include="reader.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -1,5 +1,4 @@
 #include "GameEngine.h"
-using namespace std;
 bool GameEngine::debugMode;
 std::vector<GameObject*> GameEngine::gameobjects; //The definition of static variables needs to be repeated in the cpp file.
 GameObject* GameEngine::cameraFollow;
@@ -8,8 +7,6 @@ int GameEngine::newTimeSinceStart;
 std::map <int, bool> GameObject::specialKeys;
 std::map <char, bool> GameObject::keys;
 unsigned int GameEngine::base; // Generate display list base.
-double xx;
-Reader obj;
 
 void GameEngine::updateGame()
 {
@@ -54,25 +51,6 @@ void GameEngine::updateGame()
 	glutPostRedisplay();
 }
 
-void GameEngine::setup(void)
-{
-	char filename[] = "Racetrack.obj";
-	obj.LoadModel(filename);
-	if (obj.numPts == 0)
-	{
-		cout << "File did not load" << endl;
-	}
-}
-
-void GameEngine::animate()
-{
-	// update state variables 
-	xx += .001;
-
-	// refresh screen 
-	glutPostRedisplay();
-}
-
 void GameEngine::initEngine(int argc, char ** argv, const char * windowTitle, bool debugMode, int width, int height)
 {
 	GameEngine::debugMode = debugMode;
@@ -89,12 +67,6 @@ void GameEngine::initEngine(int argc, char ** argv, const char * windowTitle, bo
 
 	glewExperimental = GL_TRUE;
 	glewInit();
-
-	animate();
-
-	setup();
-
-	xx = 0.0;
 
 	//Lambda function defined inside the glutDisplayFunc call to call all relevant drawscenes.
 	glutDisplayFunc(displayFunc);
@@ -129,7 +101,6 @@ void GameEngine::initEngine(int argc, char ** argv, const char * windowTitle, bo
 }
 void GameEngine::displayFunc()
 {
-	int i, id;
 	//Prepare for drawing all objects.
 	glClearColor(0.0, 0.0, 0.0, 0.0);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -156,40 +127,13 @@ void GameEngine::displayFunc()
 	}
 	glutSwapBuffers(); //Finish Draw Scene.
 
-	glPushMatrix();
-	// Modeling transformations.
-	glTranslatef(0.0, 0.0, -6.0);
-	glRotatef(25, 1, 0, 0);
-	glRotatef(45, 0, 1, 0);
-	//glScalef(0.5, 0.5, 0.5);
-
-
-	///this is for four vertices polygon
-	glBegin(GL_QUADS);
-	for (i = 0; i < obj.numFaces; i++)
-	{
-		id = obj.faces[i].id1;
-		glNormal3d(obj.normal[id].x, obj.normal[id].y, obj.normal[id].z);
-		glVertex3d(obj.vertex[id].x, obj.vertex[id].y, obj.vertex[id].z);
-		id = obj.faces[i].id2;
-		glNormal3d(obj.normal[id].x, obj.normal[id].y, obj.normal[id].z);
-		glVertex3d(obj.vertex[id].x, obj.vertex[id].y, obj.vertex[id].z);
-		id = obj.faces[i].id3;
-		glNormal3d(obj.normal[id].x, obj.normal[id].y, obj.normal[id].z);
-		glVertex3d(obj.vertex[id].x, obj.vertex[id].y, obj.vertex[id].z);
-		id = obj.faces[i].id4;
-		glNormal3d(obj.normal[id].x, obj.normal[id].y, obj.normal[id].z);
-		glVertex3d(obj.vertex[id].x, obj.vertex[id].y, obj.vertex[id].z);
-	}
-	glEnd();
-	glPopMatrix();
 }
 
 void GameEngine::reshapeFunc(int w, int h)
 {
 	glViewport(0, 0, w, h);
 	glMatrixMode(GL_PROJECTION);
-	// set up depth-buffering 
+	//set up depth-buffering 
 	glEnable(GL_DEPTH_TEST);
 	// turn on default lighting 
 	//glEnable(GL_LIGHTING);
