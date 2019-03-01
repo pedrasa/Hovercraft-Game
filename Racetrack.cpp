@@ -37,14 +37,9 @@ void Racetrack::drawScene()
 {
 	glPushMatrix();
 	glColor3f(1, 0, 0);
-	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE); //GL_REPLACE //GL_MODULATE
-	glEnable(GL_TEXTURE_2D);
-	glBindTexture(GL_TEXTURE_2D, texture[0]);
 	glTranslatef(this->position.x, this->position.y, this->position.z);
 	glScalef(12, 0.0, 12);
 	glCallList(this->base); // Draw grass.
-	glDisable(GL_TEXTURE_2D);
-	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 	glPopMatrix(); // End draw grass.
 }
 
@@ -55,23 +50,35 @@ unsigned int Racetrack::setupDrawing(unsigned int listBase)
 	this->base = listBase;
 	glNewList(this->base, GL_COMPILE);
 	glPushMatrix();
+	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE); //GL_REPLACE //GL_MODULATE
+	glEnable(GL_TEXTURE_2D);
+	glBindTexture(GL_TEXTURE_2D, texture[0]);
 	glBegin(GL_QUADS);
 	for (i = 0; i < obj.numFaces; i++)
 	{
+		id = obj.texfaces[i].id1;
+		glTexCoord2f(obj.texCoord[id].x, obj.texCoord[id].y);
 		id = obj.faces[i].id1;
-		//glNormal3d(obj.normal[id].x, obj.normal[id].y, obj.normal[id].z);
 		glVertex3d(obj.vertex[id].x, obj.vertex[id].y, obj.vertex[id].z);
+
+		id = obj.texfaces[i].id2;
+		glTexCoord2f(obj.texCoord[id].x, obj.texCoord[id].y);
 		id = obj.faces[i].id2;
-		//glNormal3d(obj.normal[id].x, obj.normal[id].y, obj.normal[id].z);
 		glVertex3d(obj.vertex[id].x, obj.vertex[id].y, obj.vertex[id].z);
+
+		id = obj.texfaces[i].id3;
+		glTexCoord2f(obj.texCoord[id].x, obj.texCoord[id].y);
 		id = obj.faces[i].id3;
-		//glNormal3d(obj.normal[id].x, obj.normal[id].y, obj.normal[id].z);
 		glVertex3d(obj.vertex[id].x, obj.vertex[id].y, obj.vertex[id].z);
+
+		id = obj.texfaces[i].id4;
+		glTexCoord2f(obj.texCoord[id].x, obj.texCoord[id].y);
 		id = obj.faces[i].id4;
-		//glNormal3d(obj.normal[id].x, obj.normal[id].y, obj.normal[id].z);
 		glVertex3d(obj.vertex[id].x, obj.vertex[id].y, obj.vertex[id].z);
 	}
 	glEnd();
+	glDisable(GL_TEXTURE_2D);
+	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 	glPopMatrix();
 	glEndList();
 	return this->base + 1;

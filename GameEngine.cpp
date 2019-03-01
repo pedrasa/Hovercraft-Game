@@ -132,6 +132,8 @@ void GameEngine::displayFunc()
 void GameEngine::reshapeFunc(int w, int h)
 {
 	glViewport(0, 0, w, h);
+
+	//glutInitDisplayMode(GLUT_RGB | GLUT_DEPTH);
 	glMatrixMode(GL_PROJECTION);
 	//set up depth-buffering 
 	glEnable(GL_DEPTH_TEST);

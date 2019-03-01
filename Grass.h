@@ -15,6 +15,5 @@ public:
 	void drawScene();
 	void start();
 	void update(int deltaTime);
-	void loadExternalTextures();
 };
 #endif
