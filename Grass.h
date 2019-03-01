@@ -3,6 +3,7 @@
 #define __GRASS_H__
 
 #include "GameObject.h"
+#include "getbmp.h"
 
 class Grass : public GameObject {
 private:
@@ -14,5 +15,6 @@ public:
 	void drawScene();
 	void start();
 	void update(int deltaTime);
+	void loadExternalTextures();
 };
 #endif

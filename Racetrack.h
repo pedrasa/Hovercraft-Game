@@ -13,5 +13,7 @@ public:
 	unsigned int setupDrawing(unsigned int listBase);
 	void start();
 	void update(int deltaTime);
+	void loadExternalTextures();
+
 };
 

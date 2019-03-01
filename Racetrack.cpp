@@ -13,6 +13,9 @@ Racetrack::~Racetrack()
 
 void Racetrack::setup(void)
 {
+	glGenTextures(2, texture);
+	// Load external textures.
+	loadExternalTextures();
 	char filename[] = "Racetrack.obj";
 	obj.LoadModel(filename);
 	if (obj.numPts == 0)
@@ -33,11 +36,15 @@ void Racetrack::animate()
 void Racetrack::drawScene()
 {
 	glPushMatrix();
-
 	glColor3f(1, 0, 0);
+	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE); //GL_REPLACE //GL_MODULATE
+	glEnable(GL_TEXTURE_2D);
+	glBindTexture(GL_TEXTURE_2D, texture[0]);
 	glTranslatef(this->position.x, this->position.y, this->position.z);
 	glScalef(12, 0.0, 12);
 	glCallList(this->base); // Draw grass.
+	glDisable(GL_TEXTURE_2D);
+	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 	glPopMatrix(); // End draw grass.
 }
 
@@ -78,4 +85,23 @@ void Racetrack::start()
 
 void Racetrack::update(int deltaTime)
 {
+}
+
+void Racetrack::loadExternalTextures()
+{
+	// Local storage for bmp image data.
+	BitMapFile *image[2];
+
+	// Load the images.
+	image[0] = getbmp("./alienscraft/metaltexture.bmp");
+
+	// Bind grass image to texture object texture[0]. 
+	glBindTexture(GL_TEXTURE_2D, texture[0]);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, image[0]->sizeX, image[0]->sizeY, 0,
+		GL_RGBA, GL_UNSIGNED_BYTE, image[0]->data);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+
 }
